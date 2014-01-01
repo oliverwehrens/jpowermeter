@@ -1,0 +1,116 @@
+1B 1B 1B 1B                                     Start Escape Zeichenfolge
+01 01 01 01                                     Start Übertragung Version 1
+76                                              Liste mit 6 Einträgen
+   07 00 14 04 EC 6D 20                         transactionID (7 Byte)
+   62 00                                        groupNo
+   62 00                                        abortOnError
+   72                                           Liste mit 2 Einträgen
+      63 01 01                                  Nachricht 0101 = SML_PublicOpen.Res
+      76                                        Liste mit 6 Einträgen
+         01                                     codepage (leer)
+         01                                     clientID (leer)
+         07 00 14 01 82 24 60                   reqFileID
+         0B 06 45 4D 48 xx xx xx xx xx xx       serverID
+         01                                     username (leer)
+         01                                     password (leer)
+   63 B7 96                                     CRC
+00                                              Ende Nachricht
+76                                              Liste mit 6 Einträgen
+   07 00 14 04 EC 6D 21                         transactionID
+   62 00                                        groupNo
+   62 00                                        abortOnError
+   72                                           Liste mit 2 Einträgen
+      63 07 01                                  Nachricht 0701 = SML_GetList.Res
+      77                                        Liste mit 7 Einträgen
+         01                                     clientID (leer)
+         0B 06 45 4D 48 xx xx xx xx xx xx       serverID
+         01                                     listName (leer)
+         72                                     Liste mit 2 Einträgen = actSensorTime
+            62 01                               Typ = secIndex
+            65 01 82 78 48                      Sekunden-Index als unsigned 32
+         77                                     Liste mit 7 Einträgen = valList mit ValListEntries
+            77 (1)
+               07 81 81 C7 82 03 FF             objName 129-129:199.130.3*255
+                                                Herstelleridentifikation
+               01                               status (leer)
+               01                               valTime (leer)
+               01                               unit (leer)
+               01                               scaler (leer)
+               04 45 4D 48                      value
+               01                               valueSignature (leer)
+            77 (2)
+               07 01 00 00 00 09 FF             objName 1-0:0.0.9*255
+                                                Geräteidentifikation
+               01                               status
+               01                               valTime
+               01                               unit
+               01                               scaler
+               0B 06 45 4D 48 xx xx xx xx xx xx value
+               01                               valueSignature
+            77 (3)
+               07 01 00 01 08 00 FF             objName 1-0:1.8.0*255
+                                                Wirkarbeit Bezug total
+               63 01 82                         status = unsigned 16
+               01                               valTime
+               62 1E                            unit (unsigned8) 1E = Wh
+               52 FF                            scaler (int8) -1 = *10^-1 = /10
+               56 00 01 29 71 4F                value  19493967/10 = 1949396,7 Wh = 1949,3967 kWh
+               01                               valueSignature (leer)
+            77 (4)
+               07 01 00 01 08 01 FF             objName 1-0:1.8.1*255
+                                                Wirkarbeit Bezug Tarif 1
+               01                               status (leer)
+               01                               valTime (leer)
+               62 1E                            unit (unsigned8) 1E = Wh
+               52 FF                            scaler (int8) -1 = *10^-1 = /10
+               56 00 01 29 71 4F                value  19493967/10 = 1949396,7 Wh = 1949,3967 kWh
+               01                               valueSignature (leer)
+            77 (5)
+               07 01 00 01 08 02 FF             objName 1-0:1.8.2*255
+                                                Wirkarbeit Bezug Tarif 2
+               01                               status (leer)
+               01                               valTime (leer)
+               62 1E                            unit (unsigned8) 1E = Wh
+               52 FF                            scaler (int8) -1 = *10^-1 = /10
+               56 00 00 00 00 00                value 0
+               01                               valueSignature (leer)
+            77 (6)
+               07 01 00 0F 07 00 FF             objName 1-0:15.7.0*255
+                                                Wirkleistung total
+               01                               status (leer)
+               01                               valTime (leer)
+               62 1B                            unit (unsigned8) 1B = W
+               52 FF                            scaler (int8) -1 = *10^-1 = /10
+               55 00 00 11 51                   value 4433/10 = 443,3 W
+               01                               valueSignature (leer)
+            77 (7)
+               07 81 81 C7 82 05 FF             objName 129-129:199.130.5*255
+                                                Public Key des Zählers
+               01                               status (leer)
+               01                               valTime (leer)
+               01                               unit (leer)
+               01                               scaler (leer)
+               83 xx xx xx xx xx xx xx xx xx xx value
+                  xx xx xx xx xx xx xx xx xx xx
+                  xx xx xx xx xx xx xx xx xx xx
+                  xx xx xx xx xx xx xx xx xx xx
+                  xx xx xx xx xx xx xx xx xx
+               01                               valueSignature (leer)
+         01                                     listSignature (leer)
+         01                                     actGatewayTime (leer)
+   63 C1 04                                     CRC
+00                                              Ende Nachricht
+76
+   07 00 14 04 EC 6D 24                         transactionID
+   62 00                                        groupNo
+   62 00                                        abortOnError
+   72
+      63 02 01                                  Nachricht 0201 = SML_PublicClose.Res
+      71
+         01                                     Signature (leer)
+   63 DD 06                                     CRC
+00                                              Ende
+00                                              Ende
+1B 1B 1B 1B                                     Escape-Sequenz
+1A 01 64 62                                     Ende Nachricht mit Füllbyte und Prüfsumme
+00                                              Ende
