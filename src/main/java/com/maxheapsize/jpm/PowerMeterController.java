@@ -14,8 +14,9 @@ public class PowerMeterController {
     private PowerMeterValueService service;
 
     @RequestMapping(method = RequestMethod.GET)
-    public @ResponseBody PowerMeter measure() {
-        return service.getPowerMeter();
+    public @ResponseBody
+    PowerMeterReading measure() {
+        return service.getPowerMeterReading();
     }
 
 }

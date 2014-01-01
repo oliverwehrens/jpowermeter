@@ -5,13 +5,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class PowerMeterValueService {
 
-    private PowerMeter powerMeter;
+    private PowerMeterReading powerMeterReading;
 
-    public PowerMeter getPowerMeter() {
-        return powerMeter;
+    public PowerMeterReading getPowerMeterReading() {
+        return powerMeterReading;
     }
 
-    public void setPowerMeter(PowerMeter powerMeter) {
-        this.powerMeter = powerMeter;
+    public void setPowerMeterReading(PowerMeterReading powerMeterReading) {
+        this.powerMeterReading = powerMeterReading;
     }
 }

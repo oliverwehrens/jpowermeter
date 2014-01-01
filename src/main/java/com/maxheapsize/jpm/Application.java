@@ -32,7 +32,7 @@ public class Application {
     @Scheduled(fixedRate = 1000)
     public void reportCurrentTime() throws PortInUseException, IOException, UnsupportedCommOperationException {
         EhzSmlReader ehzSmlReader = new EhzSmlReader();
-        service.setPowerMeter(ehzSmlReader.read(device));
+        service.setPowerMeterReading(ehzSmlReader.read(device));
     }
 
 }
