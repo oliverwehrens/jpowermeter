@@ -22,17 +22,18 @@ public class EhzSmlReader {
     private static final int LISTENTRY_CONSUMPTION_FARETWO = 5;
     private static final int LISTENTRY_CONSUMPTION_NOW = 6;
 
+    private final int TRIES_TO_GET_THE_START_SEQUENCE_IN_DATA_FROM_DEVICE = 5;
+
     public PowerMeterReading read(String device) throws PortInUseException, IOException, UnsupportedCommOperationException {
         SML_SerialReceiver receiver = new SML_SerialReceiver();
         receiver.setupComPort(device);
         PowerMeterReading powerMeterReading = new PowerMeterReading();
 
         try {
-            for (int j = 0; j < 5; j++) { // no idea why 5 times , this is from the jSML source example
+            for (int j = 0; j < TRIES_TO_GET_THE_START_SEQUENCE_IN_DATA_FROM_DEVICE; j++) {
                 List<SML_Message> smlMessages = getMessages(receiver);
 
-                for (int i = 0; i < smlMessages.size(); i++) {
-                    SML_Message sml_message = smlMessages.get(i);
+                for (SML_Message sml_message : smlMessages) {
                     if (isListResponse(sml_message)) {
                         SML_ListEntry[] list = getEntries(sml_message);
                         int listEntryPosition = 0;
@@ -41,14 +42,13 @@ public class EhzSmlReader {
                             int unit = entry.getUnit().getVal();
                             if (unit == SML_Unit.WATT_HOUR || unit == SML_Unit.WATT) {
                                 powerMeterReading.date = new Date();
-                                Consumption consumption = createConsumption(entry, unit);
-                                assignConsumptionToPowerMeter(powerMeterReading, listEntryPosition, consumption);
+                                Consumption consumption = extractConsumption(entry, unit);
+                                assignConsumptionToMatchingPowerMeterField(powerMeterReading, listEntryPosition, consumption);
                             }
                         }
                         return powerMeterReading;
                     }
                 }
-
             }
         } catch (Exception e) {
             System.out.println("Exception " + e);
@@ -56,7 +56,6 @@ public class EhzSmlReader {
             receiver.close();
         }
         return powerMeterReading;
-
     }
 
     private boolean isListResponse(SML_Message sml_message) {
@@ -74,14 +73,14 @@ public class EhzSmlReader {
         return smlList.getValListEntry();
     }
 
-    private Consumption createConsumption(SML_ListEntry entry, int unit) {
+    private Consumption extractConsumption(SML_ListEntry entry, int unit) {
         Consumption consumption = new Consumption();
         consumption.value = getValue(entry.getValue());
         consumption.unit = unit == SML_Unit.WATT ? "W" : "WH";
         return consumption;
     }
 
-    private void assignConsumptionToPowerMeter(PowerMeterReading powerMeterReading, int listEntryPosition, Consumption consumption) {
+    private void assignConsumptionToMatchingPowerMeterField(PowerMeterReading powerMeterReading, int listEntryPosition, Consumption consumption) {
         switch (listEntryPosition) {
             case LISTENTRY_CONSUMPTION_TOTAL:
                 powerMeterReading.consumptionTotal = consumption;
