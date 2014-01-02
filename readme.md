@@ -48,6 +48,9 @@ java -Ddevice=/dev/ttyS0 -Djava.library.path=/usr/lib/jni/ -jar ./jpowermeter-0.
 
 You now can connect to the service on port 9000.
 
+At the moment it pulls the values every 5 seconds from the meter. Doing it every second caused many IO problems on the
+Pi.
+
 ```
 > curl http://localhost:9000/pm
 {"date":1388611237867,"consumptionTotal":{"value":121005377,"unit":"WH"},"consumptionOne":{"value":121005377,"unit":"WH"},"consumptionTwo":{"value":0,"unit":"WH"},"consumptionNow":{"value":9601,"unit":"W"}}
