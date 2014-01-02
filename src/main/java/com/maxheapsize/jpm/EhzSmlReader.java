@@ -22,7 +22,7 @@ public class EhzSmlReader {
     private static final int LISTENTRY_CONSUMPTION_FARETWO = 5;
     private static final int LISTENTRY_CONSUMPTION_NOW = 6;
 
-    private final int TRIES_TO_GET_THE_START_SEQUENCE_IN_DATA_FROM_DEVICE = 5;
+    private final int TRIES_TO_GET_THE_START_SEQUENCE_IN_DATA_FROM_DEVICE = 3;
 
     public PowerMeterReading read(String device) throws PortInUseException, IOException, UnsupportedCommOperationException {
         SML_SerialReceiver receiver = new SML_SerialReceiver();
@@ -51,7 +51,10 @@ public class EhzSmlReader {
                 }
             }
         } catch (Exception e) {
+            System.out.println(new Date());
             System.out.println("Exception " + e);
+            e.printStackTrace();
+
         } finally {
             receiver.close();
         }

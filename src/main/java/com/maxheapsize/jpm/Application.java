@@ -25,13 +25,15 @@ public class Application {
     @Value(value = "${device:/dev/ttyUSB0}")
     public String device;
 
+    private EhzSmlReader ehzSmlReader;
+
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
 
-    @Scheduled(fixedRate = 1000)
+    @Scheduled(fixedRate = 5000)
     public void reportCurrentTime() throws PortInUseException, IOException, UnsupportedCommOperationException {
-        EhzSmlReader ehzSmlReader = new EhzSmlReader();
+        ehzSmlReader = new EhzSmlReader();
         service.setPowerMeterReading(ehzSmlReader.read(device));
     }
 
