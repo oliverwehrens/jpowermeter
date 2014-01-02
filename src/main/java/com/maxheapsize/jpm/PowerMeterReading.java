@@ -6,8 +6,8 @@ public class PowerMeterReading {
 
     public Date date = new Date();
     public Consumption consumptionTotal = new Consumption();
-    public Consumption consumptionFareOne = new Consumption();
-    public Consumption consumptionFareTwo = new Consumption();
+    public Consumption consumptionOne = new Consumption();
+    public Consumption consumptionTwo = new Consumption();
     public Consumption consumptionNow = new Consumption();
 
 }

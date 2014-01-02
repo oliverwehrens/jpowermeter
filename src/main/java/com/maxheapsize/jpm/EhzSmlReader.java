@@ -89,10 +89,10 @@ public class EhzSmlReader {
                 powerMeterReading.consumptionTotal = consumption;
                 break;
             case LISTENTRY_CONSUMPTION_FAREONE:
-                powerMeterReading.consumptionFareOne = consumption;
+                powerMeterReading.consumptionOne = consumption;
                 break;
             case LISTENTRY_CONSUMPTION_FARETWO:
-                powerMeterReading.consumptionFareTwo = consumption;
+                powerMeterReading.consumptionTwo = consumption;
                 break;
             case LISTENTRY_CONSUMPTION_NOW:
                 powerMeterReading.consumptionNow = consumption;

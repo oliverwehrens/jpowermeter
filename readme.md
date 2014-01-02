@@ -1,6 +1,6 @@
 Version 0.1 (a)
 
-Small REST Service for reading your power meter at home.
+A REST Micro Service for reading your power meter at home.
 
 Since 2010 every new house in Germany needs to have a 'smart' power meter. Some (all?) of them have an optical
 interface (infrared).
@@ -50,7 +50,7 @@ You now can connect to the service on port 9000.
 
 ```
 > curl http://localhost:9000/pm
-{"date":1388611237867,"consumptionTotal":{"value":121005377,"unit":"WH"},"consumptionFareOne":{"value":121005377,"unit":"WH"},"consumptionFareTwo":{"value":0,"unit":"WH"},"consumptionNow":{"value":9601,"unit":"W"}}
+{"date":1388611237867,"consumptionTotal":{"value":121005377,"unit":"WH"},"consumptionOne":{"value":121005377,"unit":"WH"},"consumptionTwo":{"value":0,"unit":"WH"},"consumptionNow":{"value":9601,"unit":"W"}}
 ```
 
 ** ALL IS VERY LIKELY TO CHANGE **
