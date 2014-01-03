@@ -19,12 +19,13 @@ import java.io.IOException;
 @EnableScheduling
 public class Application {
 
-    @Autowired
-    private PowerMeterValueService service;
-
     @Value(value = "${device:/dev/ttyUSB0}")
     public String device;
 
+    @Autowired
+    private PowerMeterValueService service;
+
+    @Autowired
     private EhzSmlReader ehzSmlReader;
 
     public static void main(String[] args) {
@@ -33,7 +34,6 @@ public class Application {
 
     @Scheduled(fixedRate = 5000)
     public void reportCurrentTime() throws PortInUseException, IOException, UnsupportedCommOperationException {
-        ehzSmlReader = new EhzSmlReader();
         service.setPowerMeterReading(ehzSmlReader.read(device));
     }
 

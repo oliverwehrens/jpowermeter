@@ -7,16 +7,24 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping("/pm")
 public class PowerMeterController {
 
     @Autowired
     private PowerMeterValueService service;
 
-    @RequestMapping(method = RequestMethod.GET)
-    public @ResponseBody
+    @RequestMapping(value = "/api", produces = "application/json", method = RequestMethod.GET)
+    public
+    @ResponseBody
     PowerMeterReading measure() {
         return service.getPowerMeterReading();
     }
+
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    String web() {
+        return service.getPowerMeterReading().consumptionTotal.value.toString();
+    }
+
 
 }
