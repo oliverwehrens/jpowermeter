@@ -23,8 +23,13 @@ repositories {
 }
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-web:0.5.0.M6")
+//    compile("org.springframework.boot:spring-boot-starter-web:0.5.0.M6")
+    compile("org.springframework.boot:spring-boot-starter-web:0.5.0.M6") {
+        exclude module: "spring-boot-starter-tomcat"
+    }
+    compile("org.springframework.boot:spring-boot-starter-jetty:0.5.0.M6")
     compile("org.springframework.boot:spring-boot-starter-actuator:0.5.0.M6")
+    compile("org.thymeleaf:thymeleaf-spring3:2.0.16")
     testCompile("junit:junit:4.11")
     compile files("libs/jsml-1.0.15.jar")
     compile files("libs/rxtxcomm_api-2.1.7.jar")
