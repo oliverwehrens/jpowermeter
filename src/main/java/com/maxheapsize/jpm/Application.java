@@ -21,12 +21,12 @@ public class Application {
 
     @Value(value = "${device:/dev/ttyUSB0}")
     public String device;
-
     @Autowired
     private PowerMeterValueService service;
-
     @Autowired
     private EhzSmlReader ehzSmlReader;
+    @Autowired
+    private PowerMeterRepository powerMeterRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
@@ -34,7 +34,9 @@ public class Application {
 
     @Scheduled(fixedRate = 5000)
     public void reportCurrentTime() throws PortInUseException, IOException, UnsupportedCommOperationException {
-        service.setPowerMeterReading(ehzSmlReader.read(device));
+        PowerMeterReading reading = ehzSmlReader.read(device);
+        service.setPowerMeterReading(reading);
+        powerMeterRepository.persist(reading);
     }
 
 }
