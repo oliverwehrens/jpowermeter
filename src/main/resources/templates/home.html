@@ -3,14 +3,42 @@
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <title>Powermeter</title>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="http://dimplejs.org/dist/dimple.v1.1.4.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 </head>
 <body>
+<script type="text/javascript">
+    var svg = dimple.newSvg("body", 800, 600);
+
+    $.ajax({
+        type: 'GET',
+        url: '/chart',
+        success: function (data, status) {
+
+            var chart = new dimple.chart(svg, data);
+            var addCategoryAxis = chart.addCategoryAxis("x", "date");
+            addCategoryAxis.addOrderRule("date");
+            chart.addMeasureAxis("y", "wh");
+            chart.addSeries(null, dimple.plot.bar);
+            chart.draw();
+        },
+        error: function (data, status) {
+            // On Error
+        }
+    });
+
+
+</script>
+
+
 <h1>Welcome!</h1>
 
 
 <p th:text="${reading.consumptionTotal.value}">0</p>
 
 <p th:text="${reading.consumptionTotal.unit}">WH</p>
+
 <p th:text="${reading.consumptionNow.value}">0</p>
 
 

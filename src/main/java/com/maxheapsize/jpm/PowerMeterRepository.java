@@ -22,7 +22,7 @@ public class PowerMeterRepository {
                 timestamp, reading.consumptionTotal.value, reading.consumptionOne.value, reading.consumptionTwo.value, reading.consumptionNow.value, "1");
     }
 
-    public List<PowerMeterReading> getReadings() {
+    public List<PowerMeterReading> getTimeSortedReadings() {
         List<PowerMeterReading> results = new ArrayList<>();
         List<Map<String, Object>> rows = dataStore.queryForList("SELECT * from reading");
         for (Map row : rows) {
