@@ -2,6 +2,7 @@ package com.maxheapsize.jpm.config;
 
 import com.maxheapsize.jpm.reader.EhzSmlReader;
 import com.maxheapsize.jpm.reader.SimulatedEhzSmlReader;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -12,6 +13,9 @@ import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 @Configuration
 public class TestConfig {
 
+    @Autowired
+    TableConfig tableConfig;
+
     @Bean
     public EhzSmlReader ehzSmlReader() {
         return new SimulatedEhzSmlReader();
@@ -19,14 +23,7 @@ public class TestConfig {
 
     @Bean
     public JdbcTemplate dataStore() {
-        SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
-        dataSource.setDriverClass(org.h2.Driver.class);
-        dataSource.setUsername("sa");
-        dataSource.setUrl("jdbc:h2:file:/tmp/a");
-        dataSource.setPassword("");
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-        jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS reading(time TIMESTAMP, total_c long, one long, two long, now long, counter_id varchar(10))");
-        return jdbcTemplate;
+        return tableConfig.createTables("jdbc:h2:file:/tmp/a");
     }
 
 }
