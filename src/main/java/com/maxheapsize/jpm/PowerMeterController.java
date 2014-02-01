@@ -15,16 +15,12 @@ public class PowerMeterController {
     private PowerMeterValueService service;
 
     @RequestMapping(value = "/api", produces = "application/json", method = RequestMethod.GET)
-    public
-    @ResponseBody
-    PowerMeterReading measure() {
+    public @ResponseBody PowerMeterReading measure() {
         return service.getPowerMeterReading();
     }
 
     @RequestMapping(value = "/home", method = RequestMethod.GET)
-    public
-    @ResponseBody
-    ModelAndView web() {
+    public @ResponseBody ModelAndView web() {
         ModelAndView model = new ModelAndView();
         model.getModelMap().addAttribute("reading", service.getPowerMeterReading());
         model.setViewName("home");
