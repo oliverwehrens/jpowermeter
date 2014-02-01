@@ -13,4 +13,9 @@ public class Consumption {
         this.value = value;
         this.unit = unit;
     }
+
+    @Override
+    public String toString() {
+        return value + " " + unit;
+    }
 }

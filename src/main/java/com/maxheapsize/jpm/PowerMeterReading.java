@@ -1,5 +1,6 @@
 package com.maxheapsize.jpm;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class PowerMeterReading {
@@ -10,4 +11,12 @@ public class PowerMeterReading {
     public Consumption consumptionTwo = new Consumption();
     public Consumption consumptionNow = new Consumption();
 
+    @Override
+    public String toString() {
+        return "Reading from: "+date+" with values:"+
+                "\nTotal: "+consumptionTotal+
+                "\nOne: "+consumptionOne+
+                "\nTwo: "+consumptionTwo+
+                "\nNow: "+consumptionNow;
+    }
 }

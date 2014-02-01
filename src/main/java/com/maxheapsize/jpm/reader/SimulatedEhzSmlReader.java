@@ -17,8 +17,10 @@ public class SimulatedEhzSmlReader implements EhzSmlReader {
     public PowerMeterReading read(String device) throws PortInUseException, IOException, UnsupportedCommOperationException {
 
         START_COUNTER = START_COUNTER + new Random().nextInt(30);
+        long consumptionNow = new Random().nextInt(5000);
         PowerMeterReading powerMeterReading = new PowerMeterReading();
         powerMeterReading.consumptionTotal = new Consumption(START_COUNTER, "WH");
+        powerMeterReading.consumptionNow = new Consumption(consumptionNow, "W");
         return powerMeterReading;
     }
 
