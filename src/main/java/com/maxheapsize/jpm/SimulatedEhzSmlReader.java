@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.Random;
 
 @Service
-public class MockEhzSmlReader implements EhzSmlReader {
+public class SimulatedEhzSmlReader implements EhzSmlReader {
 
     private long START_COUNTER = 121413280;
 

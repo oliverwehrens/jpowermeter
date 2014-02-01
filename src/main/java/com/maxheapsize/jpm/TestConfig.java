@@ -12,7 +12,7 @@ public class TestConfig {
 
     @Bean
     public EhzSmlReader ehzSmlReader() {
-        return new MockEhzSmlReader();
+        return new SimulatedEhzSmlReader();
     }
 
     @Bean
