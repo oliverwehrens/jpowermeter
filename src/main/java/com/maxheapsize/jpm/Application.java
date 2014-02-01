@@ -1,5 +1,6 @@
 package com.maxheapsize.jpm;
 
+import com.maxheapsize.jpm.reader.EhzSmlReader;
 import gnu.io.PortInUseException;
 import gnu.io.UnsupportedCommOperationException;
 import org.springframework.beans.factory.annotation.Autowired;

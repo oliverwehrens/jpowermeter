@@ -10,5 +10,4 @@ public class PowerMeterReading {
     public Consumption consumptionTwo = new Consumption();
     public Consumption consumptionNow = new Consumption();
 
-
 }

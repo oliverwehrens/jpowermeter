@@ -1,5 +1,7 @@
-package com.maxheapsize.jpm;
+package com.maxheapsize.jpm.reader;
 
+import com.maxheapsize.jpm.Consumption;
+import com.maxheapsize.jpm.PowerMeterReading;
 import gnu.io.PortInUseException;
 import gnu.io.UnsupportedCommOperationException;
 import org.springframework.stereotype.Service;

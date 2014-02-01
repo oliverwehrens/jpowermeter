@@ -1,18 +1,20 @@
-package com.maxheapsize.jpm;
+package com.maxheapsize.jpm.config;
 
+import com.maxheapsize.jpm.reader.EhzSmlReader;
+import com.maxheapsize.jpm.reader.SimulatedEhzSmlReader;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 
-@Profile("production")
+@Profile("test")
 @Configuration
-public class ProductionConfig {
+public class TestConfig {
 
     @Bean
     public EhzSmlReader ehzSmlReader() {
-        return new EhzSmlReaderFromDevice();
+        return new SimulatedEhzSmlReader();
     }
 
     @Bean
@@ -20,13 +22,11 @@ public class ProductionConfig {
         SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
         dataSource.setDriverClass(org.h2.Driver.class);
         dataSource.setUsername("sa");
-        dataSource.setUrl("jdbc:h2:file:~/jpm.db");
+        dataSource.setUrl("jdbc:h2:file:/tmp/a");
         dataSource.setPassword("");
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-        jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS reading(time TIMESTAMP, total_c long, one long, two long, now long, counter long)");
-        jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS jpm(key varchar(255), value varchar(255))");
+        jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS reading(time TIMESTAMP, total_c long, one long, two long, now long, counter_id varchar(10))");
         return jdbcTemplate;
     }
-
 
 }
