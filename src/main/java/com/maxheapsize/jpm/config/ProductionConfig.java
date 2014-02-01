@@ -1,7 +1,7 @@
 package com.maxheapsize.jpm.config;
 
 import com.maxheapsize.jpm.reader.EhzSmlReader;
-import com.maxheapsize.jpm.reader.EhzSmlReaderFromDevice;
+import com.maxheapsize.jpm.reader.DeviceEhzSmlReader;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -14,7 +14,7 @@ public class ProductionConfig {
 
     @Bean
     public EhzSmlReader ehzSmlReader() {
-        return new EhzSmlReaderFromDevice();
+        return new DeviceEhzSmlReader();
     }
 
     @Bean

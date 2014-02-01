@@ -17,7 +17,7 @@ import java.util.List;
  */
 
 @Service
-public class EhzSmlReaderFromDevice implements EhzSmlReader {
+public class DeviceEhzSmlReader implements EhzSmlReader {
 
     private static final int LISTENTRY_CONSUMPTION_TOTAL = 3;
     private static final int LISTENTRY_CONSUMPTION_FAREONE = 4;
