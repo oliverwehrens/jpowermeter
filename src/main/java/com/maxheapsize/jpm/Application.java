@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -26,18 +27,20 @@ public class Application {
     private PowerMeterValueService service;
     @Autowired
     private EhzSmlReader ehzSmlReader;
-    @Autowired
-    private PowerMeterRepository powerMeterRepository;
+    private static PowerMeterReadingRepository powerMeterReadingRepository;
 
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+
+        ConfigurableApplicationContext context = SpringApplication.run(Application.class, args);
+        powerMeterReadingRepository = context.getBean(PowerMeterReadingRepository.class);
+
     }
 
     @Scheduled(fixedRate = 5000)
     public void reportCurrentTime() throws PortInUseException, IOException, UnsupportedCommOperationException {
         PowerMeterReading reading = ehzSmlReader.read(device);
         service.setPowerMeterReading(reading);
-        powerMeterRepository.persist(reading);
+        powerMeterReadingRepository.save(reading);
     }
 
 }

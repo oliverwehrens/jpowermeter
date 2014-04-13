@@ -13,17 +13,9 @@ import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 @Configuration
 public class TestConfig {
 
-    @Autowired
-    TableConfig tableConfig;
-
     @Bean
     public EhzSmlReader ehzSmlReader() {
         return new SimulatedEhzSmlReader();
-    }
-
-    @Bean
-    public JdbcTemplate dataStore() {
-        return tableConfig.createTables("jdbc:h2:file:/tmp/a");
     }
 
 }

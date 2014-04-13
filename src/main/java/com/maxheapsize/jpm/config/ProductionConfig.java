@@ -14,18 +14,9 @@ import org.springframework.stereotype.Service;
 @Configuration
 public class ProductionConfig {
 
-    @Autowired
-    TableConfig tableConfig;
-
     @Bean
     public EhzSmlReader ehzSmlReader() {
         return new DeviceEhzSmlReader();
     }
-
-    @Bean
-    public JdbcTemplate dataStore() {
-        return tableConfig.createTables("jdbc:h2:file:~/jpm.db");
-    }
-
 
 }
