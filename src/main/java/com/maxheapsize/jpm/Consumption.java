@@ -1,6 +1,7 @@
 package com.maxheapsize.jpm;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "consumption")
@@ -10,14 +11,14 @@ public class Consumption {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    public Long value = 0L;
+    public BigDecimal value = new BigDecimal(0);
     public String unit = "";
 
 
     public Consumption() {
     }
 
-    public Consumption(Long value, String unit) {
+    public Consumption(BigDecimal value, String unit) {
         this.value = value;
         this.unit = unit;
     }

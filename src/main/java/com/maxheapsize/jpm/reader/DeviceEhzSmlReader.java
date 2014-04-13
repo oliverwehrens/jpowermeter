@@ -9,7 +9,7 @@ import org.openmuc.jsml.tl.SML_SerialReceiver;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -43,9 +43,10 @@ public class DeviceEhzSmlReader implements EhzSmlReader {
                         for (SML_ListEntry entry : list) {
                             listEntryPosition++;
                             int unit = entry.getUnit().getVal();
+                            Integer8 scaler = entry.getScaler();
                             if (unit == SML_Unit.WATT_HOUR || unit == SML_Unit.WATT) {
                                 powerMeterReading.date = new Date();
-                                Consumption consumption = extractConsumption(entry, unit);
+                                Consumption consumption = extractConsumption(entry, unit, scaler);
                                 assignConsumptionToMatchingPowerMeterField(powerMeterReading, listEntryPosition, consumption);
                             }
                         }
@@ -79,9 +80,10 @@ public class DeviceEhzSmlReader implements EhzSmlReader {
         return smlList.getValListEntry();
     }
 
-    private Consumption extractConsumption(SML_ListEntry entry, int unit) {
+    private Consumption extractConsumption(SML_ListEntry entry, int unit, Integer8 scaler) {
         Consumption consumption = new Consumption();
-        consumption.value = getValue(entry.getValue());
+        double pow = Math.pow(10, scaler.getVal());
+        consumption.value = BigDecimal.valueOf((getValue(entry.getValue()) / (1 / pow)));
         consumption.unit = unit == SML_Unit.WATT ? "W" : "WH";
         return consumption;
     }

@@ -7,7 +7,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.time.*;
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -24,14 +28,15 @@ public class PowerMeterController {
     @RequestMapping(value = "/today", produces = "application/json", method = RequestMethod.GET)
     public
     @ResponseBody
-    long measureToday() {
+    BigDecimal measureToday() {
         LocalDate now = LocalDate.now();
         List<PowerMeterReading> readings = getByDate(now.getYear(), now.getMonthValue(), now.getDayOfMonth());
         if (readings.isEmpty()) {
-            return 0;
+            return new BigDecimal(0);
         }
-        return readings.get(readings.size() - 1).consumptionTotal.value - readings.get(0).consumptionTotal.value;
+        return readings.get(readings.size() - 1).consumptionTotal.value.subtract(readings.get(0).consumptionTotal.value);
     }
+
     @RequestMapping(value = "/all", produces = "application/json", method = RequestMethod.GET)
     public
     @ResponseBody

@@ -7,17 +7,23 @@ import gnu.io.UnsupportedCommOperationException;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.Random;
 
 @Service
 public class SimulatedEhzSmlReader implements EhzSmlReader {
 
-    private long START_COUNTER = 121413280;
+    private BigDecimal START_COUNTER = new BigDecimal(121413280);
 
     public PowerMeterReading read(String device) throws PortInUseException, IOException, UnsupportedCommOperationException {
 
-        START_COUNTER = START_COUNTER + new Random().nextInt(30);
-        long consumptionNow = new Random().nextInt(5000);
+        BigDecimal random = new BigDecimal(Math.random());
+        BigDecimal random2 = new BigDecimal(Math.random());
+
+        BigDecimal consumptionNow = random.divide(new BigDecimal(5000),BigDecimal.ROUND_DOWN);
+        START_COUNTER = START_COUNTER.add(random2.divide(new BigDecimal(30), BigDecimal.ROUND_DOWN));
+
         PowerMeterReading powerMeterReading = new PowerMeterReading();
         powerMeterReading.consumptionTotal = new Consumption(START_COUNTER, "WH");
         powerMeterReading.consumptionNow = new Consumption(consumptionNow, "W");
