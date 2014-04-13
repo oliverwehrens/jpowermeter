@@ -11,6 +11,6 @@ import java.util.List;
 public interface PowerMeterReadingRepository extends CrudRepository<PowerMeterReading, Long> {
 
     @Query("SELECT r from PowerMeterReading r WHERE r.date >= :startDate and r.date <= :endDate ORDER BY r.date ASC")
-    List<PowerMeterReading> findX(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
+    List<PowerMeterReading> findDateInRange(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
 
 }

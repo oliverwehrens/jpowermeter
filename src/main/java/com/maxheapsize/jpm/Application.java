@@ -37,7 +37,7 @@ public class Application {
     }
 
     @Scheduled(fixedRate = 5000)
-    public void reportCurrentTime() throws PortInUseException, IOException, UnsupportedCommOperationException {
+    public void readPowerMeter() throws PortInUseException, IOException, UnsupportedCommOperationException {
         PowerMeterReading reading = ehzSmlReader.read(device);
         service.setPowerMeterReading(reading);
         powerMeterReadingRepository.save(reading);

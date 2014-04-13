@@ -62,7 +62,7 @@ public class PowerMeterController {
         Date startDate = Date.from(Instant.from(start.atZone(ZoneId.systemDefault())));
         Date endDate = Date.from(Instant.from(end.atZone(ZoneId.systemDefault())));
 
-        List<PowerMeterReading> readings = powerMeterReadingRepository.findX(startDate, endDate);
+        List<PowerMeterReading> readings = powerMeterReadingRepository.findDateInRange(startDate, endDate);
         return readings;
     }
 
