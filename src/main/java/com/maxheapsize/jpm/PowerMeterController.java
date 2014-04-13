@@ -21,7 +21,7 @@ public class PowerMeterController {
     @Autowired
     private PowerMeterReadingRepository powerMeterReadingRepository;
 
-    @RequestMapping(value = "/api", produces = "application/json", method = RequestMethod.GET)
+    @RequestMapping(value = "/today", produces = "application/json", method = RequestMethod.GET)
     public
     @ResponseBody
     long measureToday() {

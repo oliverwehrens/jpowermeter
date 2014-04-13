@@ -30,10 +30,8 @@ public class Application {
     private static PowerMeterReadingRepository powerMeterReadingRepository;
 
     public static void main(String[] args) {
-
         ConfigurableApplicationContext context = SpringApplication.run(Application.class, args);
         powerMeterReadingRepository = context.getBean(PowerMeterReadingRepository.class);
-
     }
 
     @Scheduled(fixedRate = 5000)
