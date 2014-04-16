@@ -16,6 +16,7 @@ public class SimulatedEhzSmlReader implements EhzSmlReader {
 
     private BigDecimal START_COUNTER = new BigDecimal(121413280);
 
+    @Override
     public PowerMeterReading read(String device) throws PortInUseException, IOException, UnsupportedCommOperationException {
 
         BigDecimal random = new BigDecimal(Math.random());
