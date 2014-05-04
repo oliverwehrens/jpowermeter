@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -24,10 +25,12 @@ import java.util.List;
 public class PowerMeterController {
 
     @Autowired
-    private PowerMeterValueService service;
+    private PowerMeterValueService powerMeterValueService;
 
     @Autowired
     private PowerMeterReadingRepository powerMeterReadingRepository;
+
+    private BigDecimal pricekwh = new BigDecimal(0.2642);
 
     @RequestMapping(value = "/today", produces = "application/json", method = RequestMethod.GET)
     public
@@ -38,7 +41,8 @@ public class PowerMeterController {
         if (readings.isEmpty()) {
             return new BigDecimal(0);
         }
-        return readings.get(readings.size() - 1).consumptionTotal.value.subtract(readings.get(0).consumptionTotal.value);
+        BigDecimal value = readings.get(readings.size() - 1).consumptionTotal.value.subtract(readings.get(0).consumptionTotal.value);
+        return (value.divide(new BigDecimal(1000)).multiply(pricekwh)).setScale(2, RoundingMode.HALF_UP);
     }
 
     @RequestMapping(value = "/all", produces = "application/json", method = RequestMethod.GET)
@@ -59,7 +63,7 @@ public class PowerMeterController {
     @ResponseBody
     ModelAndView web() {
         ModelAndView model = new ModelAndView();
-        model.getModelMap().addAttribute("reading", service.getPowerMeterReading());
+        model.getModelMap().addAttribute("reading", powerMeterValueService.getPowerMeterReading());
         model.setViewName("home");
         return model;
     }
@@ -75,6 +79,42 @@ public class PowerMeterController {
         return readings;
     }
 
+    private List<PowerMeterReading> getReadingsForLast24h() {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime twentyFourHoursAgo = now.minusHours(24);
+        Date startDate = Date.from(Instant.from(now.atZone(ZoneId.systemDefault())));
+        Date endDate = Date.from(Instant.from(twentyFourHoursAgo.atZone(ZoneId.systemDefault())));
+        return powerMeterReadingRepository.findDateInRange(startDate, endDate);
+    }
+
+    @RequestMapping(value = "/consumption/now", produces = "application/json", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    Consumption getConsumptionNowJson() {
+        return powerMeterValueService.getPowerMeterReading().consumptionNow;
+    }
+
+    @RequestMapping(value = "/consumption/now/price", produces = "application/json", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    Consumption getConsumptionNowJsonPrice() {
+       return powerMeterValueService.getPowerMeterReading().consumptionNow;
+    }
+
+    @RequestMapping(value = "/consumption/now/text", produces = "text/text", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    String getConsumptionNowText() {
+        return powerMeterValueService.getPowerMeterReading().consumptionNow.toString();
+    }
+
+    @RequestMapping(value = "/counter/now", produces = "application/json", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    Consumption getCounterNowJson() {
+        return powerMeterValueService.getPowerMeterReading().consumptionTotal;
+    }
+
     @RequestMapping(value = "/last24h/panicstatusboard", produces = "application/json", method = RequestMethod.GET)
     public
     @ResponseBody
@@ -82,8 +122,11 @@ public class PowerMeterController {
 //        List<PowerMeterReading> readings = getReadingsForLast24h();
         LocalDate now = LocalDate.now();
         List<PowerMeterReading> readings = getByDate(now.getYear(), now.getMonthValue(), now.getDayOfMonth());
+        GraphO go = createPanicGraph(readings);
+        return go;
+    }
 
-
+    private GraphO createPanicGraph(List<PowerMeterReading> readings) {
         LocalDateTime afterThisNewDataPointNeededTime = LocalDateTime.now().minusDays(2);
         GraphO go = new GraphO();
         Graph graph = new Graph();
@@ -91,7 +134,7 @@ public class PowerMeterController {
         graph.title = "Verbrauch 24h";
         graph.type = "line";
         DataSequence dataSequence = new DataSequence();
-        dataSequence.title = "wh";
+        dataSequence.title = "WH";
         graph.datasequences.add(dataSequence);
 
         if (!readings.isEmpty()) {
@@ -110,16 +153,8 @@ public class PowerMeterController {
                 }
             }
         }
-
         return go;
     }
 
-    private List<PowerMeterReading> getReadingsForLast24h() {
-        LocalDateTime now = LocalDateTime.now();
-        LocalDateTime twentyFourHoursAgo = now.minusHours(24);
-        Date startDate = Date.from(Instant.from(now.atZone(ZoneId.systemDefault())));
-        Date endDate = Date.from(Instant.from(twentyFourHoursAgo.atZone(ZoneId.systemDefault())));
-        return powerMeterReadingRepository.findDateInRange(startDate, endDate);
-    }
 
 }
