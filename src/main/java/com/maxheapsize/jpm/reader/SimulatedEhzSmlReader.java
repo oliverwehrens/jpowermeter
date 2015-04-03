@@ -8,8 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.math.MathContext;
-import java.util.Random;
 
 @Service
 public class SimulatedEhzSmlReader implements EhzSmlReader {

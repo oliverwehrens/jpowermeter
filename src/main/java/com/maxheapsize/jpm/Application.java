@@ -6,6 +6,7 @@ import gnu.io.UnsupportedCommOperationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.actuate.metrics.writer.DefaultGaugeService;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
@@ -21,24 +22,24 @@ import java.io.IOException;
 @EnableScheduling
 public class Application {
 
+    private static DefaultGaugeService gaugeService;
     @Value(value = "${device:/dev/ttyUSB0}")
     public String device;
     @Autowired
-    private PowerMeterValueService service;
-    @Autowired
     private EhzSmlReader ehzSmlReader;
-    private static PowerMeterReadingRepository powerMeterReadingRepository;
 
     public static void main(String[] args) {
         ConfigurableApplicationContext context = SpringApplication.run(Application.class, args);
-        powerMeterReadingRepository = context.getBean(PowerMeterReadingRepository.class);
+        gaugeService = context.getBean(DefaultGaugeService.class);
     }
 
-    @Scheduled(fixedRate = 5000)
+    @Scheduled(fixedRate = 1000, initialDelay = 5000)
     public void readPowerMeter() throws PortInUseException, IOException, UnsupportedCommOperationException {
         PowerMeterReading reading = ehzSmlReader.read(device);
-        service.setPowerMeterReading(reading);
-        powerMeterReadingRepository.save(reading);
+        gaugeService.submit("consumptionOne", reading.consumptionOne.value.doubleValue());
+        gaugeService.submit("consumptionTwo", reading.consumptionTwo.value.doubleValue());
+        gaugeService.submit("consumptionNow", reading.consumptionNow.value.doubleValue());
+        gaugeService.submit("consumptionTotal", reading.consumptionTotal.value.doubleValue());
     }
 
 }
