@@ -36,10 +36,11 @@ public class Application {
     @Scheduled(fixedRate = 1000, initialDelay = 5000)
     public void readPowerMeter() throws PortInUseException, IOException, UnsupportedCommOperationException {
         PowerMeterReading reading = ehzSmlReader.read(device);
-        gaugeService.submit("consumptionOne", reading.consumptionOne.value.doubleValue());
-        gaugeService.submit("consumptionTwo", reading.consumptionTwo.value.doubleValue());
-        gaugeService.submit("consumptionNow", reading.consumptionNow.value.doubleValue());
-        gaugeService.submit("consumptionTotal", reading.consumptionTotal.value.doubleValue());
+        gaugeService.submit("consumption.one", reading.consumptionOne.value.doubleValue());
+        gaugeService.submit("consumption.two", reading.consumptionTwo.value.doubleValue());
+        gaugeService.submit("consumption.now", reading.consumptionNow.value.doubleValue());
+        gaugeService.submit("consumption.total", reading.consumptionTotal.value.doubleValue());
+        gaugeService.submit("consumption.timestamp", reading.date.getTime());
     }
 
 }
