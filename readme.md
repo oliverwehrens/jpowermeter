@@ -71,3 +71,8 @@ value. In german in says 'Wirkleistung total' and I have no idea what this reall
 used in watts right now.
 
 Have fun.
+
+# Docker
+
+docker build -t 'jpm' .
+docker run -t -i --privileged -v /dev/ttyUSB0:/dev/ttyUSB0 -p 9000:9000 -p 9001:9001 jpm
