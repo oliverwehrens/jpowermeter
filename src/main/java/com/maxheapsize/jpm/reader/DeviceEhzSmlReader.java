@@ -6,6 +6,8 @@ import gnu.io.PortInUseException;
 import gnu.io.UnsupportedCommOperationException;
 import org.openmuc.jsml.structures.*;
 import org.openmuc.jsml.tl.SML_SerialReceiver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -24,7 +26,7 @@ public class DeviceEhzSmlReader implements EhzSmlReader {
     private static final int LISTENTRY_CONSUMPTION_FAREONE = 4;
     private static final int LISTENTRY_CONSUMPTION_FARETWO = 5;
     private static final int LISTENTRY_CONSUMPTION_NOW = 6;
-
+    private final static Logger log = LoggerFactory.getLogger(DeviceEhzSmlReader.class);
     private final int TRIES_TO_GET_THE_START_SEQUENCE_IN_DATA_FROM_DEVICE = 1;
 
     public PowerMeterReading read(String device) throws PortInUseException, IOException, UnsupportedCommOperationException {
@@ -55,13 +57,11 @@ public class DeviceEhzSmlReader implements EhzSmlReader {
                 }
             }
         } catch (Exception e) {
-            System.out.println(new Date());
-            System.out.println("Exception " + e);
-            e.printStackTrace();
-
+            log.error("Exception {}", e);
         } finally {
             receiver.close();
         }
+        log.info(powerMeterReading.toString());
         return powerMeterReading;
     }
 

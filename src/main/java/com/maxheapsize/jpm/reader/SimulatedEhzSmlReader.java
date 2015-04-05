@@ -4,6 +4,8 @@ import com.maxheapsize.jpm.Consumption;
 import com.maxheapsize.jpm.PowerMeterReading;
 import gnu.io.PortInUseException;
 import gnu.io.UnsupportedCommOperationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -12,6 +14,7 @@ import java.math.BigDecimal;
 @Service
 public class SimulatedEhzSmlReader implements EhzSmlReader {
 
+    private final static Logger log = LoggerFactory.getLogger(SimulatedEhzSmlReader.class);
     private BigDecimal START_COUNTER = new BigDecimal(121413280);
 
     @Override
@@ -26,6 +29,8 @@ public class SimulatedEhzSmlReader implements EhzSmlReader {
         PowerMeterReading powerMeterReading = new PowerMeterReading();
         powerMeterReading.consumptionTotal = new Consumption(START_COUNTER, "WH");
         powerMeterReading.consumptionNow = new Consumption(consumptionNow, "W");
+        log.info(powerMeterReading.toString());
+
         return powerMeterReading;
     }
 
