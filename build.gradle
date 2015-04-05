@@ -14,7 +14,6 @@ apply plugin: 'spring-boot'
 
 jar {
     baseName = 'jpowermeter'
-    version = '0.2.0'
 }
 
 repositories {
