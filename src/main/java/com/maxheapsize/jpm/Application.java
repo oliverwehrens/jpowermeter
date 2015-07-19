@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.actuate.metrics.writer.DefaultCounterService;
 import org.springframework.boot.actuate.metrics.writer.DefaultGaugeService;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -28,6 +29,7 @@ public class Application {
 
     final static Logger log = LoggerFactory.getLogger(Application.class);
     private static DefaultGaugeService gaugeService;
+    private static DefaultCounterService counterService;
     @Value(value = "${device:/dev/ttyUSB0}")
     public String device;
     private EhzSmlReader ehzSmlReader;
@@ -35,10 +37,13 @@ public class Application {
     private DeviceEhzSmlReader deviceEhzSmlReader;
     @Autowired
     private SimulatedEhzSmlReader simulatedEhzSmlReader;
+    @Autowired
+    private ReadingBuffer readingBuffer;
 
     public static void main(String[] args) {
         ConfigurableApplicationContext context = SpringApplication.run(Application.class, args);
         gaugeService = context.getBean(DefaultGaugeService.class);
+        counterService = context.getBean(DefaultCounterService.class);
     }
 
     @Scheduled(fixedRate = 1000, initialDelay = 5000)
@@ -48,12 +53,17 @@ public class Application {
             ehzSmlReader = getReader(device);
         }
 
-        PowerMeterReading reading = ehzSmlReader.read(device);
-        gaugeService.submit("consumption.one", reading.consumptionOne.value.doubleValue());
-        gaugeService.submit("consumption.two", reading.consumptionTwo.value.doubleValue());
-        gaugeService.submit("consumption.now", reading.consumptionNow.value.doubleValue());
-        gaugeService.submit("consumption.total", reading.consumptionTotal.value.doubleValue());
-        gaugeService.submit("consumption.timestamp", reading.date.getTime());
+        SmartMeterReadout reading = ehzSmlReader.read(device);
+        if (reading.complete) {
+            gaugeService.submit("consumption.one", reading.consumptionOne.value.doubleValue());
+            gaugeService.submit("consumption.two", reading.consumptionTwo.value.doubleValue());
+            gaugeService.submit("consumption.now", reading.consumptionNow.value.doubleValue());
+            gaugeService.submit("consumption.total", reading.consumptionTotal.value.doubleValue());
+            gaugeService.submit("consumption.timestamp", reading.date.getTime());
+            readingBuffer.setSmartMeterReadout(reading);
+        } else {
+            counterService.increment("consumption.error.read");
+        }
     }
 
     private EhzSmlReader getReader(String device) {

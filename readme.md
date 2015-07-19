@@ -75,4 +75,4 @@ Have fun.
 # Docker
 
 docker build -t 'jpm' .
-docker run -t -i --privileged -v /dev/ttyUSB0:/dev/ttyUSB0 -p 9000:9000 -p 9001:9001 jpm
+docker run -t -i --rm=true --privileged -v /dev/ttyUSB0:/dev/ttyUSB0 -p 9000:9000 -p 9001:9001 jpm
