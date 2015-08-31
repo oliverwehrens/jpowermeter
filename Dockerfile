@@ -17,6 +17,6 @@ RUN apt-get clean
 
 ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
 
-ADD jpowermeter.jar /jpowermeter.jar
+ADD build/libs/jpowermeter.jar /jpowermeter.jar
 EXPOSE 9000 9001
 CMD ["java", "-Ddevice=/dev/ttyUSB0","-Djava.library.path=/usr/lib/jni/", "-jar","/jpowermeter.jar"]
