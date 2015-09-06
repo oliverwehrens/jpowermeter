@@ -43,7 +43,7 @@ To start the service.
 If you want to specify a device for your IR reader different than /dev/ttyUSB0 you need to specify it at startup.
 
 ```
-java -Ddevice=/dev/ttyS0 -Djava.library.path=/usr/lib/jni/ -jar ./jpowermeter-0.1.0.jar  --spring.profiles.active=production
+java -Ddevice=/dev/ttyS0 -Djava.library.path=/usr/lib/jni/ -jar ./jpowermeter-0.1.0.jar  
 ```
 
 You now can connect to the service on port 9000.
@@ -58,7 +58,7 @@ Pi.
 
 If you want to run it in test mode without a real IR usb infrared sensor attached use the option
 ```
---spring.profiles.active=test
+-Ddevice=SIMULATED
 ```
 
 to get a fake reader.
