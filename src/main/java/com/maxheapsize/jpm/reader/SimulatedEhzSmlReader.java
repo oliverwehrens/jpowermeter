@@ -1,7 +1,7 @@
 package com.maxheapsize.jpm.reader;
 
 import com.maxheapsize.jpm.Consumption;
-import com.maxheapsize.jpm.SmartMeterReadout;
+import com.maxheapsize.jpm.SmartMeterReading;
 import gnu.io.PortInUseException;
 import gnu.io.UnsupportedCommOperationException;
 import org.slf4j.Logger;
@@ -22,20 +22,20 @@ public class SimulatedEhzSmlReader implements EhzSmlReader {
     int WATT_TO_WATTHOURS = 3600;
 
     @Override
-    public SmartMeterReadout read(String device) throws PortInUseException, IOException, UnsupportedCommOperationException {
+    public SmartMeterReading read(String device) throws PortInUseException, IOException, UnsupportedCommOperationException {
 
         BigDecimal READING_NOW = new BigDecimal(new Random().nextInt(5000));
         READING_TOTAL = READING_TOTAL.add(READING_NOW.divide(new BigDecimal(WATT_TO_WATTHOURS), 2, BigDecimal.ROUND_DOWN));
         READING_ONE = READING_TOTAL;
 
-        SmartMeterReadout smartMeterReadout = new SmartMeterReadout();
-        smartMeterReadout.consumptionTotal = new Consumption(READING_TOTAL, "WH");
-        smartMeterReadout.consumptionOne = new Consumption(READING_ONE, "WH");
-        smartMeterReadout.consumptionTwo = new Consumption(READING_TWO, "WH");
-        smartMeterReadout.consumptionNow = new Consumption(READING_NOW, "W");
-        log.info(smartMeterReadout.toString());
+        SmartMeterReading smartMeterReading = new SmartMeterReading();
+        smartMeterReading.consumptionTotal = new Consumption(READING_TOTAL, "WH");
+        smartMeterReading.consumptionOne = new Consumption(READING_ONE, "WH");
+        smartMeterReading.consumptionTwo = new Consumption(READING_TWO, "WH");
+        smartMeterReading.consumptionNow = new Consumption(READING_NOW, "W");
+        log.info(smartMeterReading.toString());
 
-        return smartMeterReadout;
+        return smartMeterReading;
     }
 
 }

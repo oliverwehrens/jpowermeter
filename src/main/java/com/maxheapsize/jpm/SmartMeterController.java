@@ -12,8 +12,17 @@ public class SmartMeterController {
     @Autowired
     private ReadingBuffer readingBuffer;
 
-    @RequestMapping(value = "/reading", produces = "application/json", method = RequestMethod.GET)
-    public @ResponseBody SmartMeterReadout getConsumptionNowJson() {
-        return readingBuffer.getSmartMeterReadout();
+    @RequestMapping(value = "/meterreader", produces = "application/json", method = RequestMethod.GET)
+    public @ResponseBody
+    SmartMeterReading getConsumptionNowJson() {
+        return readingBuffer.getSmartMeterReading();
     }
+
+    @RequestMapping(value = "/meterreader/kwh", produces = "application/json", method = RequestMethod.GET)
+    public @ResponseBody
+    SmartMeterReading getConsumptionNowJsonKwh()
+    {
+        return readingBuffer.getSmartMeterReadingInKwh();
+    }
+
 }

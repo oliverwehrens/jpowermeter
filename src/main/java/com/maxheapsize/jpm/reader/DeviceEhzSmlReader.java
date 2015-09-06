@@ -1,7 +1,7 @@
 package com.maxheapsize.jpm.reader;
 
 import com.maxheapsize.jpm.Consumption;
-import com.maxheapsize.jpm.SmartMeterReadout;
+import com.maxheapsize.jpm.SmartMeterReading;
 import gnu.io.PortInUseException;
 import gnu.io.UnsupportedCommOperationException;
 import org.openmuc.jsml.structures.*;
@@ -29,10 +29,10 @@ public class DeviceEhzSmlReader implements EhzSmlReader {
     private final static Logger log = LoggerFactory.getLogger(DeviceEhzSmlReader.class);
     private final int TRIES_TO_GET_THE_START_SEQUENCE_IN_DATA_FROM_DEVICE = 1;
 
-    public SmartMeterReadout read(String device) throws PortInUseException, IOException, UnsupportedCommOperationException {
+    public SmartMeterReading read(String device) throws PortInUseException, IOException, UnsupportedCommOperationException {
         SML_SerialReceiver receiver = new SML_SerialReceiver();
         receiver.setupComPort(device);
-        SmartMeterReadout smartMeterReadout = new SmartMeterReadout();
+        SmartMeterReading smartMeterReading = new SmartMeterReading();
 
         try {
             for (int j = 0; j < TRIES_TO_GET_THE_START_SEQUENCE_IN_DATA_FROM_DEVICE; j++) {
@@ -47,22 +47,22 @@ public class DeviceEhzSmlReader implements EhzSmlReader {
                             int unit = entry.getUnit().getVal();
                             Integer8 scaler = entry.getScaler();
                             if (unit == SML_Unit.WATT_HOUR || unit == SML_Unit.WATT) {
-                                smartMeterReadout.date = new Date();
+                                smartMeterReading.date = new Date();
                                 Consumption consumption = extractConsumption(entry, unit, scaler);
-                                assignConsumptionToMatchingPowerMeterField(smartMeterReadout, listEntryPosition, consumption);
+                                assignConsumptionToMatchingPowerMeterField(smartMeterReading, listEntryPosition, consumption);
                             }
                         }
                     }
                 }
-                log.info(smartMeterReadout.toString());
+                log.info(smartMeterReading.toString());
             }
         } catch (Exception e) {
             log.error("Exception {}", e.getMessage());
-            smartMeterReadout.complete = false;
+            smartMeterReading.complete = false;
         } finally {
             receiver.close();
         }
-        return smartMeterReadout;
+        return smartMeterReading;
     }
 
     private boolean isListResponse(SML_Message sml_message) {
@@ -88,19 +88,19 @@ public class DeviceEhzSmlReader implements EhzSmlReader {
         return consumption;
     }
 
-    private void assignConsumptionToMatchingPowerMeterField(SmartMeterReadout smartMeterReadout, int listEntryPosition, Consumption consumption) {
+    private void assignConsumptionToMatchingPowerMeterField(SmartMeterReading smartMeterReading, int listEntryPosition, Consumption consumption) {
         switch (listEntryPosition) {
             case LISTENTRY_CONSUMPTION_TOTAL:
-                smartMeterReadout.consumptionTotal = consumption;
+                smartMeterReading.consumptionTotal = consumption;
                 break;
             case LISTENTRY_CONSUMPTION_FAREONE:
-                smartMeterReadout.consumptionOne = consumption;
+                smartMeterReading.consumptionOne = consumption;
                 break;
             case LISTENTRY_CONSUMPTION_FARETWO:
-                smartMeterReadout.consumptionTwo = consumption;
+                smartMeterReading.consumptionTwo = consumption;
                 break;
             case LISTENTRY_CONSUMPTION_NOW:
-                smartMeterReadout.consumptionNow = consumption;
+                smartMeterReading.consumptionNow = consumption;
                 break;
             default:
                 break;

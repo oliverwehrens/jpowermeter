@@ -53,14 +53,14 @@ public class Application {
             ehzSmlReader = getReader(device);
         }
 
-        SmartMeterReadout reading = ehzSmlReader.read(device);
+        SmartMeterReading reading = ehzSmlReader.read(device);
         if (reading.complete) {
             gaugeService.submit("consumption.one", reading.consumptionOne.value.doubleValue());
             gaugeService.submit("consumption.two", reading.consumptionTwo.value.doubleValue());
             gaugeService.submit("consumption.now", reading.consumptionNow.value.doubleValue());
             gaugeService.submit("consumption.total", reading.consumptionTotal.value.doubleValue());
             gaugeService.submit("consumption.timestamp", reading.date.getTime());
-            readingBuffer.setSmartMeterReadout(reading);
+            readingBuffer.setSmartMeterReading(reading);
         } else {
             counterService.increment("consumption.error.read");
         }

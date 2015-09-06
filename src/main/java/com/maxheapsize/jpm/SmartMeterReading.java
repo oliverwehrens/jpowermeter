@@ -1,9 +1,8 @@
 package com.maxheapsize.jpm;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
-public class SmartMeterReadout {
+public class SmartMeterReading {
 
     public Date date = new Date();
     public Consumption consumptionTotal = new Consumption();
