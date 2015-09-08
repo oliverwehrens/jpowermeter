@@ -33,7 +33,7 @@ public class SimulatedEhzSmlReader implements EhzSmlReader {
         smartMeterReading.consumptionOne = new Consumption(READING_ONE, "WH");
         smartMeterReading.consumptionTwo = new Consumption(READING_TWO, "WH");
         smartMeterReading.consumptionNow = new Consumption(READING_NOW, "W");
-        log.info(smartMeterReading.toString());
+        log.debug(smartMeterReading.toString());
 
         return smartMeterReading;
     }

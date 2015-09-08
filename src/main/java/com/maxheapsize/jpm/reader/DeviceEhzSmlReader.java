@@ -54,7 +54,7 @@ public class DeviceEhzSmlReader implements EhzSmlReader {
                         }
                     }
                 }
-                log.info(smartMeterReading.toString());
+                log.debug(smartMeterReading.toString());
             }
         } catch (Exception e) {
             log.error("Exception {}", e.getMessage());
