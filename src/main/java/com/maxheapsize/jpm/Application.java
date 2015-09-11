@@ -5,6 +5,8 @@ import com.maxheapsize.jpm.reader.EhzSmlReader;
 import com.maxheapsize.jpm.reader.SimulatedEhzSmlReader;
 import gnu.io.PortInUseException;
 import gnu.io.UnsupportedCommOperationException;
+import org.influxdb.InfluxDB;
+import org.influxdb.InfluxDBFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -11,4 +11,4 @@ RUN apt-get clean
 
 ADD build/libs/jpowermeter.jar /jpowermeter.jar
 EXPOSE 9000 9001
-CMD ["java", "-Ddevice=/dev/ttyUSB0","-Djava.library.path=/usr/lib/jni/", "-jar","/jpowermeter.jar"]
+CMD ["java", "-Ddevice=/dev/ttyUSB0","-Djava.library.path=/usr/lib/jni/", "-Dinfluxdburl=http://192.168.178.3:28086", "-Dinfluxdbuser=root", "-Dinfluxdbpw=root", "-Dinfluxdbdatabase=jpm", "-jar","/jpowermeter.jar"]

@@ -37,6 +37,8 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-actuator:1.2.5.RELEASE")
     compile("io.dropwizard.metrics:metrics-core")
     compile("org.thymeleaf:thymeleaf-spring3:2.0.16")
+    compile("org.influxdb:influxdb-java:1.5")
+
     testCompile("junit:junit:4.11")
     compile files("libs/jsml-1.0.15.jar")
     compile files("libs/rxtxcomm_api-2.1.7.jar")
