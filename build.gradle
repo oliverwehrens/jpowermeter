@@ -39,7 +39,10 @@ dependencies {
     compile("org.thymeleaf:thymeleaf-spring3:2.0.16")
     compile("org.influxdb:influxdb-java:1.5")
 
+    testCompile('org.springframework:spring-test:4.1.7.RELEASE') // needs to be the same as the version used in spring boot
     testCompile("junit:junit:4.11")
+    testCompile('org.skyscreamer:jsonassert:1.2.3')
+
     compile files("libs/jsml-1.0.15.jar")
     compile files("libs/rxtxcomm_api-2.1.7.jar")
 }
