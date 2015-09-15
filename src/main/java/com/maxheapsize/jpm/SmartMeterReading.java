@@ -5,20 +5,20 @@ import java.util.Date;
 public class SmartMeterReading {
 
     public Date date = new Date();
-    public Consumption consumptionTotal = new Consumption();
-    public Consumption consumptionOne = new Consumption();
-    public Consumption consumptionTwo = new Consumption();
-    public Consumption consumptionNow = new Consumption();
+    public Meter meterTotal = new Meter();
+    public Meter meterOne = new Meter();
+    public Meter meterTwo = new Meter();
+    public Meter power = new Meter();
     public boolean complete = true;
 
     @Override
     public String toString() {
         return complete ?
                 "Reading from: " + date + " with values:" +
-                        "\nTotal: " + consumptionTotal +
-                        "\nOne: " + consumptionOne +
-                        "\nTwo: " + consumptionTwo +
-                        "\nNow: " + consumptionNow
+                        "\nTotal: " + meterTotal +
+                        "\nOne: " + meterOne +
+                        "\nTwo: " + meterTwo +
+                        "\nNow: " + power
                 :
                 "Not recorded.";
     }

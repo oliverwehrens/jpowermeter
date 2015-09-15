@@ -5,8 +5,6 @@ import com.maxheapsize.jpm.reader.EhzSmlReader;
 import com.maxheapsize.jpm.reader.SimulatedEhzSmlReader;
 import gnu.io.PortInUseException;
 import gnu.io.UnsupportedCommOperationException;
-import org.influxdb.InfluxDB;
-import org.influxdb.InfluxDBFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,11 +55,11 @@ public class Application {
 
         SmartMeterReading reading = ehzSmlReader.read(device);
         if (reading.complete) {
-            gaugeService.submit("consumption.one", reading.consumptionOne.value.doubleValue());
-            gaugeService.submit("consumption.two", reading.consumptionTwo.value.doubleValue());
-            gaugeService.submit("consumption.now", reading.consumptionNow.value.doubleValue());
-            gaugeService.submit("consumption.total", reading.consumptionTotal.value.doubleValue());
-            gaugeService.submit("consumption.timestamp", reading.date.getTime());
+            gaugeService.submit("meter.one", reading.meterOne.value.doubleValue());
+            gaugeService.submit("meter.two", reading.meterTwo.value.doubleValue());
+            gaugeService.submit("power.now", reading.power.value.doubleValue());
+            gaugeService.submit("meter.total", reading.meterTotal.value.doubleValue());
+            gaugeService.submit("meter.timestamp", reading.date.getTime());
             readingBuffer.setSmartMeterReading(reading);
         } else {
             counterService.increment("consumption.error.read");

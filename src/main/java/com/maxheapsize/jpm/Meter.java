@@ -2,15 +2,15 @@ package com.maxheapsize.jpm;
 
 import java.math.BigDecimal;
 
-public class Consumption {
+public class Meter {
 
     public BigDecimal value = new BigDecimal(0);
     public String unit = "";
 
-    public Consumption() {
+    public Meter() {
     }
 
-    public Consumption(BigDecimal value, String unit) {
+    public Meter(BigDecimal value, String unit) {
         this.value = value;
         this.unit = unit;
     }

@@ -1,6 +1,6 @@
 package com.maxheapsize.jpm.reader;
 
-import com.maxheapsize.jpm.Consumption;
+import com.maxheapsize.jpm.Meter;
 import com.maxheapsize.jpm.SmartMeterReading;
 import gnu.io.PortInUseException;
 import gnu.io.UnsupportedCommOperationException;
@@ -48,8 +48,8 @@ public class DeviceEhzSmlReader implements EhzSmlReader {
                             Integer8 scaler = entry.getScaler();
                             if (unit == SML_Unit.WATT_HOUR || unit == SML_Unit.WATT) {
                                 smartMeterReading.date = new Date();
-                                Consumption consumption = extractConsumption(entry, unit, scaler);
-                                assignConsumptionToMatchingPowerMeterField(smartMeterReading, listEntryPosition, consumption);
+                                Meter meter = extractMeter(entry, unit, scaler);
+                                assignConsumptionToMatchingPowerMeterField(smartMeterReading, listEntryPosition, meter);
                             }
                         }
                     }
@@ -80,27 +80,27 @@ public class DeviceEhzSmlReader implements EhzSmlReader {
         return smlList.getValListEntry();
     }
 
-    private Consumption extractConsumption(SML_ListEntry entry, int unit, Integer8 scaler) {
-        Consumption consumption = new Consumption();
+    private Meter extractMeter(SML_ListEntry entry, int unit, Integer8 scaler) {
+        Meter meter = new Meter();
         double pow = Math.pow(10, scaler.getVal());
-        consumption.value = BigDecimal.valueOf((getValue(entry.getValue()) / (1 / pow)));
-        consumption.unit = unit == SML_Unit.WATT ? "W" : "WH";
-        return consumption;
+        meter.value = BigDecimal.valueOf((getValue(entry.getValue()) / (1 / pow)));
+        meter.unit = unit == SML_Unit.WATT ? "W" : "WH";
+        return meter;
     }
 
-    private void assignConsumptionToMatchingPowerMeterField(SmartMeterReading smartMeterReading, int listEntryPosition, Consumption consumption) {
+    private void assignConsumptionToMatchingPowerMeterField(SmartMeterReading smartMeterReading, int listEntryPosition, Meter meter) {
         switch (listEntryPosition) {
             case LISTENTRY_CONSUMPTION_TOTAL:
-                smartMeterReading.consumptionTotal = consumption;
+                smartMeterReading.meterTotal = meter;
                 break;
             case LISTENTRY_CONSUMPTION_FAREONE:
-                smartMeterReading.consumptionOne = consumption;
+                smartMeterReading.meterOne = meter;
                 break;
             case LISTENTRY_CONSUMPTION_FARETWO:
-                smartMeterReading.consumptionTwo = consumption;
+                smartMeterReading.meterTwo = meter;
                 break;
             case LISTENTRY_CONSUMPTION_NOW:
-                smartMeterReading.consumptionNow = consumption;
+                smartMeterReading.power = meter;
                 break;
             default:
                 break;

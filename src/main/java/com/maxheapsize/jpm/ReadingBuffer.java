@@ -38,24 +38,24 @@ public class ReadingBuffer {
         if (influxdburl!=null) {
             InfluxDB influxDB = InfluxDBFactory.connect(influxdburl, influxdbuser, influxdbpassword);
             Serie serie = new Serie.Builder(influxdbdatabase).columns("one", "two", "total", "now").values(
-                    smartMeterReading.consumptionOne.value,
-                    smartMeterReading.consumptionTwo.value,
-                    smartMeterReading.consumptionTotal.value,
-                    smartMeterReading.consumptionNow.value).build();
+                    smartMeterReading.meterOne.value,
+                    smartMeterReading.meterTwo.value,
+                    smartMeterReading.meterTotal.value,
+                    smartMeterReading.power.value).build();
             influxDB.write("jpm", TimeUnit.MILLISECONDS, serie);
         }
     }
 
     public SmartMeterReading getSmartMeterReadingInKwh() {
         SmartMeterReading smartMeterReadingInKwh = new SmartMeterReading();
-        smartMeterReadingInKwh.consumptionTotal.value = smartMeterReading.consumptionTotal.value.divide(new BigDecimal(1000), BigDecimal.ROUND_DOWN);
-        smartMeterReadingInKwh.consumptionTotal.unit = "kWh";
-        smartMeterReadingInKwh.consumptionOne.value = smartMeterReading.consumptionOne.value.divide(new BigDecimal(1000), BigDecimal.ROUND_DOWN);
-        smartMeterReadingInKwh.consumptionOne.unit = "kWh";
-        smartMeterReadingInKwh.consumptionTwo.value = smartMeterReading.consumptionTwo.value.divide(new BigDecimal(1000), BigDecimal.ROUND_DOWN);
-        smartMeterReadingInKwh.consumptionTwo.unit = "kWh";
-        smartMeterReadingInKwh.consumptionNow.value = smartMeterReading.consumptionNow.value;
-        smartMeterReadingInKwh.consumptionNow.unit = smartMeterReading.consumptionNow.unit;
+        smartMeterReadingInKwh.meterTotal.value = smartMeterReading.meterTotal.value.divide(new BigDecimal(1000), BigDecimal.ROUND_DOWN);
+        smartMeterReadingInKwh.meterTotal.unit = "kWh";
+        smartMeterReadingInKwh.meterOne.value = smartMeterReading.meterOne.value.divide(new BigDecimal(1000), BigDecimal.ROUND_DOWN);
+        smartMeterReadingInKwh.meterOne.unit = "kWh";
+        smartMeterReadingInKwh.meterTwo.value = smartMeterReading.meterTwo.value.divide(new BigDecimal(1000), BigDecimal.ROUND_DOWN);
+        smartMeterReadingInKwh.meterTwo.unit = "kWh";
+        smartMeterReadingInKwh.power.value = smartMeterReading.power.value;
+        smartMeterReadingInKwh.power.unit = smartMeterReading.power.unit;
         return smartMeterReadingInKwh;
     }
 

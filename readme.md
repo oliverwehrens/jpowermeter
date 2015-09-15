@@ -55,14 +55,27 @@ At the moment it pulls the values every 5 seconds from the meter. Doing it every
 Pi.
 
 ```
-> curl http://localhost:9000/pm
+> curl http://localhost:9000/
 {
- "date":1388611237867,
- "consumptionTotal":{"value":121005377,"unit":"WH"},
- "consumptionOne":  {"value":121005377,"unit":"WH"},
- "consumptionTwo":  {"value":0,"unit":"WH"},
- "consumptionNow":  {"value":9601,"unit":"W"}
-}
+  "date" : 1442346266376,
+  "meterTotal" : {
+    "value" : 196.42,
+    "unit" : "WH"
+  },
+  "meterOne" : {
+    "value" : 196.42,
+    "unit" : "WH"
+  },
+  "meterTwo" : {
+    "value" : 0,
+    "unit" : "WH"
+  },
+  "power" : {
+    "value" : 1873,
+    "unit" : "W"
+  },
+  "complete" : true
+}%                         
 ```
 
 If you want to run it in test mode without a real IR usb infrared sensor attached use the option
@@ -73,11 +86,6 @@ If you want to run it in test mode without a real IR usb infrared sensor attache
 to get a fake reader.
 
 *ALL IS VERY LIKELY TO CHANGE*
-
-This is what I hacked together in one afternoon. I'm not 100% sure I interpreted the consumption values right, but at
-least the total is exactly what my meter showed, so this should be fine. I can't make sense of the consumptionNow
-value. In german in says 'Wirkleistung total' and I have no idea what this really means. I guess! this is what is
-used in watts right now.
 
 Have fun.
 
