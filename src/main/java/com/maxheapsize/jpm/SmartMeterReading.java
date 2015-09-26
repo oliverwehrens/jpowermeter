@@ -36,4 +36,19 @@ public class SmartMeterReading {
         smartMeterReadingInKwh.power.unit = power.unit;
         return smartMeterReadingInKwh;
     }
+
+    public boolean powerWithin2PercentMeasuringInaccuracy(BigDecimal otherPower) {
+        BigDecimal lowerBorder = otherPower.multiply(new BigDecimal(0.98));
+        BigDecimal upperBorder = otherPower.multiply(new BigDecimal(1.02));
+        int less = -1;
+        int greater = 1;
+
+        int upper = power.value.compareTo(upperBorder);
+        int lower = power.value.compareTo(lowerBorder);
+
+        if (upper == less && lower == greater) {
+            return true;
+        }
+        return false;
+    }
 }

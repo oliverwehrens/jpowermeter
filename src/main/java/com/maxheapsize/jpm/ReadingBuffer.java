@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 public class ReadingBuffer {
-    private SmartMeterReading smartMeterReading = new SmartMeterReading();
+    private SmartMeterReading currentSmartMeterReading = new SmartMeterReading();
 
     @Value(value = "${influxdburl}")
     public String influxdburl;
@@ -24,23 +24,25 @@ public class ReadingBuffer {
     @Value(value = "${influxdbdatabase}")
     public String influxdbdatabase;
 
-
     public SmartMeterReading getSmartMeterReading() {
-        return smartMeterReading;
+        return currentSmartMeterReading;
     }
 
-    public void setSmartMeterReading(SmartMeterReading smartMeterReading) {
-        this.smartMeterReading = smartMeterReading;
+    public void setSmartMeterReading(SmartMeterReading newSmartMeterReading) {
 
-        if (influxdburl != null) {
-            InfluxDB influxDB = InfluxDBFactory.connect(influxdburl, influxdbuser, influxdbpassword);
-            Serie serie = new Serie.Builder(influxdbdatabase).columns("one", "two", "total", "now").values(
-                    smartMeterReading.meterOne.value,
-                    smartMeterReading.meterTwo.value,
-                    smartMeterReading.meterTotal.value,
-                    smartMeterReading.power.value).build();
-            influxDB.write("jpm", TimeUnit.MILLISECONDS, serie);
+        if (newSmartMeterReading.powerWithin2PercentMeasuringInaccuracy(currentSmartMeterReading.power.value)) {
+            if (influxdburl != null) {
+                InfluxDB influxDB = InfluxDBFactory.connect(influxdburl, influxdbuser, influxdbpassword);
+                Serie serie = new Serie.Builder(influxdbdatabase).columns("one", "two", "total", "now").values(
+                        newSmartMeterReading.meterOne.value,
+                        newSmartMeterReading.meterTwo.value,
+                        newSmartMeterReading.meterTotal.value,
+                        newSmartMeterReading.power.value).build();
+                influxDB.write("jpm", TimeUnit.MILLISECONDS, serie);
+            }
         }
+
+        this.currentSmartMeterReading = newSmartMeterReading;
     }
 
 }
