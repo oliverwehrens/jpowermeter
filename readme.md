@@ -105,3 +105,10 @@ docker run -t -i --rm=true --privileged -v /dev/ttyUSB0:/dev/ttyUSB0 -p 9000:900
 ```
 
 if your USB port is a different one, pass it with the above -v option as /dev/ttyUSB0 to the system.
+
+InfluxDB
+--------
+
+Jpowermeter now supports logging to an influxdb instance (0.8.x).
+
+Add influxdburl, influxdbdatabase, influxdbdatabase, influxdbdatabase each as -D parameter to match your configuration.
