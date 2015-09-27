@@ -38,8 +38,8 @@ public class SmartMeterReading {
     }
 
     public boolean powerWithin2PercentMeasuringInaccuracy(BigDecimal otherPower) {
-        BigDecimal lowerBorder = otherPower.multiply(new BigDecimal(0.98));
-        BigDecimal upperBorder = otherPower.multiply(new BigDecimal(1.02));
+        BigDecimal lowerBorder = otherPower.multiply(BigDecimal.valueOf(0.98));
+        BigDecimal upperBorder = otherPower.multiply(BigDecimal.valueOf(1.02));
         int less = -1;
         int greater = 1;
 
