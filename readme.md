@@ -11,6 +11,11 @@ from the infrared reader to something useful.
 The only documentation I found for the  format used by EMH eHZ-H  is at
 http://wiki.volkszaehler.org/hardware/channels/meters/power/edl-ehz/emh-ehz-h1
 
+I got a USB IR Reader like this one:
+
+http://www.energie-zaehler.com/epages/61422236.sf/de_DE/?ObjectPath=/Shops/61422236/Products/EDL-USB-Adapter
+
+
 SETUP
 -----
 
