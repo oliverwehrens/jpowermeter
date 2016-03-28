@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 public class Meter {
 
     public BigDecimal value = new BigDecimal(0);
-    public String unit = "";
+    public String unit = "wh";
 
     public Meter() {
     }

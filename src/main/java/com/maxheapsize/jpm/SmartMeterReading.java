@@ -42,11 +42,12 @@ public class SmartMeterReading {
         BigDecimal upperBorder = otherPower.multiply(BigDecimal.valueOf(1.02));
         int less = -1;
         int greater = 1;
+        int equal = 0;
 
         int upper = power.value.compareTo(upperBorder);
         int lower = power.value.compareTo(lowerBorder);
 
-        if (upper == less && lower == greater) {
+        if ((upper == less && lower == greater) || upper == equal || lower == equal) {
             return true;
         }
         return false;

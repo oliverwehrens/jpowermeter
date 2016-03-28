@@ -33,6 +33,7 @@ public class SimulatedEhzSmlReader implements EhzSmlReader {
         smartMeterReading.meterOne = new Meter(READING_ONE, "WH");
         smartMeterReading.meterTwo = new Meter(READING_TWO, "WH");
         smartMeterReading.power = new Meter(READING_POWER, "W");
+        smartMeterReading.complete = true;
         log.debug(smartMeterReading.toString());
 
         return smartMeterReading;

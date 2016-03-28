@@ -61,26 +61,28 @@ Pi.
 
 ```
 > curl http://localhost:9000/
+
 {
-  "date" : 1442346266376,
-  "meterTotal" : {
-    "value" : 196.42,
+  "date" : 1459172538229,
+  "consumptionTotal" : {
+    "value" : 23962794,
     "unit" : "WH"
   },
-  "meterOne" : {
-    "value" : 196.42,
+  "consumptionOne" : {
+    "value" : 23962794,
     "unit" : "WH"
   },
-  "meterTwo" : {
-    "value" : 0,
+  "consumptionTwo" : {
+    "value" : 0.0,
     "unit" : "WH"
   },
-  "power" : {
-    "value" : 1873,
+  "consumptionNow" : {
+    "value" : 2101.8,
     "unit" : "W"
   },
   "complete" : true
-}%                         
+}
+
 ```
 
 If you want to run it in test mode without a real IR usb infrared sensor attached use the option
@@ -111,9 +113,3 @@ docker run -t -i --rm=true --privileged -v /dev/ttyUSB0:/dev/ttyUSB0 -p 9000:900
 
 if your USB port is a different one, pass it with the above -v option as /dev/ttyUSB0 to the system.
 
-InfluxDB
---------
-
-Jpowermeter now supports logging to an influxdb instance (0.8.x).
-
-Add influxdburl, influxdbdatabase, influxdbdatabase, influxdbdatabase each as -D parameter to match your configuration.
