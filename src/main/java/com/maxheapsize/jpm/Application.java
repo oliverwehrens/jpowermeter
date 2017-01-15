@@ -24,45 +24,43 @@ import java.io.IOException;
 @EnableScheduling
 public class Application {
 
-  final static Logger log = LoggerFactory.getLogger(Application.class);
-  @Value(value = "${device:/dev/ttyUSB0}")
-  public String device;
-  private EhzSmlReader ehzSmlReader;
-  @Autowired
-  private DeviceEhzSmlReader deviceEhzSmlReader;
-  @Autowired
-  private SimulatedEhzSmlReader simulatedEhzSmlReader;
-  @Autowired
-  private ReadingBuffer readingBuffer;
+    final static Logger log = LoggerFactory.getLogger(Application.class);
+    @Value(value = "${device:/dev/ttyUSB0}")
+    public String device;
+    private EhzSmlReader ehzSmlReader;
+    @Autowired
+    private DeviceEhzSmlReader deviceEhzSmlReader;
+    @Autowired
+    private SimulatedEhzSmlReader simulatedEhzSmlReader;
+    @Autowired
+    private ReadingBuffer readingBuffer;
 
-  public static void main(String[] args) {
-    SpringApplication.run(Application.class, args);
-  }
-
-  @Scheduled(fixedRate = 1000, initialDelay = 5000)
-  public void readPowerMeter() throws PortInUseException, IOException, UnsupportedCommOperationException {
-
-    log.debug("Trying to read from device: "+device);
-    if (ehzSmlReader == null) {
-      ehzSmlReader = getReader(device);
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
     }
 
-    SmartMeterReading reading = ehzSmlReader.read(device);
-    if (reading.complete) {
-      readingBuffer.setSmartMeterReading(reading);
-    }
-  }
+    @Scheduled(fixedRate = 1000, initialDelay = 5000)
+    public void readPowerMeter() throws PortInUseException, IOException, UnsupportedCommOperationException {
 
-  private EhzSmlReader getReader(String device) {
-    EhzSmlReader ehzSmlReader = null;
-    if (device.equalsIgnoreCase("SIMULATED")) {
-      ehzSmlReader = simulatedEhzSmlReader;
-      log.info("Using simulated values from powermeter.");
-    } else {
-      ehzSmlReader = deviceEhzSmlReader;
-      log.info("Using values from device {}.", device);
+        log.debug("Trying to read from device: " + device);
+        if (ehzSmlReader == null) {
+            ehzSmlReader = getReader(device);
+        }
+
+        SmartMeterReading reading = ehzSmlReader.read(device);
+        readingBuffer.setSmartMeterReading(reading);
     }
-    return ehzSmlReader;
-  }
+
+    private EhzSmlReader getReader(String device) {
+        EhzSmlReader ehzSmlReader = null;
+        if (device.equalsIgnoreCase("SIMULATED")) {
+            ehzSmlReader = simulatedEhzSmlReader;
+            log.info("Using simulated values from powermeter.");
+        } else {
+            ehzSmlReader = deviceEhzSmlReader;
+            log.info("Using values from device {}.", device);
+        }
+        return ehzSmlReader;
+    }
 
 }

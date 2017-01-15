@@ -6,21 +6,17 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ReadingBuffer {
-  private SmartMeterReading currentSmartMeterReading = new SmartMeterReading();
+    final static Logger log = LoggerFactory.getLogger(ReadingBuffer.class);
+    private SmartMeterReading currentSmartMeterReading = new SmartMeterReading();
 
-  final static Logger log = LoggerFactory.getLogger(ReadingBuffer.class);
-
-
-  public SmartMeterReading getSmartMeterReading() {
-    return currentSmartMeterReading;
-  }
-
-  public void setSmartMeterReading(SmartMeterReading newSmartMeterReading) {
-    if (!currentSmartMeterReading.complete || newSmartMeterReading.powerWithin2PercentMeasuringInaccuracy(currentSmartMeterReading.power.value)) {
-      this.currentSmartMeterReading = newSmartMeterReading;
-    } else {
-      log.debug("Not setting Buffer, within 2%. ", newSmartMeterReading);
+    public SmartMeterReading getSmartMeterReading() {
+        log.debug("Getting new Reading {}.", currentSmartMeterReading);
+        return currentSmartMeterReading;
     }
-  }
+
+    public void setSmartMeterReading(SmartMeterReading newSmartMeterReading) {
+        this.currentSmartMeterReading = newSmartMeterReading;
+        log.debug("Setting new Reading in Buffer {}.", newSmartMeterReading);
+    }
 
 }

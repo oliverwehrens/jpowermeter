@@ -2,5 +2,5 @@
 <configuration>
     <include resource="org/springframework/boot/logging/logback/base.xml"/>
     <logger name="org.springframework.web" level="ERROR"/>
-    <logger name="com.maxheapsize.jpm" level="DEBUG"/>
+    <logger name="com.maxheapsize.jpm" level="ERROR"/>
 </configuration>

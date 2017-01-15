@@ -14,14 +14,14 @@ public class SmartMeterReading {
 
     @Override
     public String toString() {
-        return complete ?
-                "Reading from: " + date + " with values:" +
-                        "\nTotal: " + meterTotal +
-                        "\nOne: " + meterOne +
-                        "\nTwo: " + meterTwo +
-                        "\nNow: " + power
-                :
-                "Not recorded.";
+        return "SmartMeterReading{" +
+                "date=" + date +
+                ", meterTotal=" + meterTotal +
+                ", meterOne=" + meterOne +
+                ", meterTwo=" + meterTwo +
+                ", power=" + power +
+                ", complete=" + complete +
+                '}';
     }
 
     public SmartMeterReading inKwh() {
@@ -37,19 +37,4 @@ public class SmartMeterReading {
         return smartMeterReadingInKwh;
     }
 
-    public boolean powerWithin2PercentMeasuringInaccuracy(BigDecimal otherPower) {
-        BigDecimal lowerBorder = otherPower.multiply(BigDecimal.valueOf(0.98));
-        BigDecimal upperBorder = otherPower.multiply(BigDecimal.valueOf(1.02));
-        int less = -1;
-        int greater = 1;
-        int equal = 0;
-
-        int upper = power.value.compareTo(upperBorder);
-        int lower = power.value.compareTo(lowerBorder);
-
-        if ((upper == less && lower == greater) || upper == equal || lower == equal) {
-            return true;
-        }
-        return false;
-    }
 }
