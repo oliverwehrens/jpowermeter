@@ -34,6 +34,7 @@ public class SmartMeterReading {
         smartMeterReadingInKwh.meterTwo.unit = "kWh";
         smartMeterReadingInKwh.power.value = power.value;
         smartMeterReadingInKwh.power.unit = power.unit;
+        smartMeterReadingInKwh.complete = complete;
         return smartMeterReadingInKwh;
     }
 

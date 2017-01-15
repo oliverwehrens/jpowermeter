@@ -59,7 +59,7 @@ public class DeviceEhzSmlReader implements EhzSmlReader {
                 }
                 log.debug("Set complete status to true.");
                 smartMeterReading.complete = true;
-                log.debug(smartMeterReading.toString());
+                log.info(smartMeterReading.toString());
             }
         } catch (Exception e) {
             log.error("Exception {}", e, e.getMessage());
