@@ -42,6 +42,8 @@ public class Application {
   @Scheduled(fixedRate = 1000, initialDelay = 5000)
   public void readPowerMeter() throws PortInUseException, IOException, UnsupportedCommOperationException {
 
+    log.debug("Trying again to read from {}.", device);
+
     if (ehzSmlReader == null) {
       ehzSmlReader = getReader(device);
     }

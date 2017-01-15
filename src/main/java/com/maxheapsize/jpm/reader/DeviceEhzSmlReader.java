@@ -27,18 +27,20 @@ public class DeviceEhzSmlReader implements EhzSmlReader {
     private static final int LISTENTRY_CONSUMPTION_FARETWO = 5;
     private static final int LISTENTRY_CONSUMPTION_NOW = 6;
     private final static Logger log = LoggerFactory.getLogger(DeviceEhzSmlReader.class);
-    private final int TRIES_TO_GET_THE_START_SEQUENCE_IN_DATA_FROM_DEVICE = 1;
+    private final int TRIES_TO_GET_THE_START_SEQUENCE_IN_DATA_FROM_DEVICE = 20;
 
     public SmartMeterReading read(String device) throws PortInUseException, IOException, UnsupportedCommOperationException {
         SML_SerialReceiver receiver = new SML_SerialReceiver();
         receiver.setupComPort(device);
+        log.debug("Reading from device : {}", device);
         SmartMeterReading smartMeterReading = new SmartMeterReading();
 
         try {
             for (int j = 0; j < TRIES_TO_GET_THE_START_SEQUENCE_IN_DATA_FROM_DEVICE; j++) {
                 List<SML_Message> smlMessages = getMessages(receiver);
-
+                log.debug("Got {} SML messages.", smlMessages.size());
                 for (SML_Message sml_message : smlMessages) {
+                    log.debug("Message {} ", sml_message.getTransactionId());
                     if (isListResponse(sml_message)) {
                         SML_ListEntry[] list = getEntries(sml_message);
                         int listEntryPosition = 0;
@@ -53,6 +55,7 @@ public class DeviceEhzSmlReader implements EhzSmlReader {
                             }
                         }
                     }
+                    smartMeterReading.complete = true;
                 }
                 log.debug(smartMeterReading.toString());
             }
@@ -89,6 +92,7 @@ public class DeviceEhzSmlReader implements EhzSmlReader {
     }
 
     private void assignConsumptionToMatchingPowerMeterField(SmartMeterReading smartMeterReading, int listEntryPosition, Meter meter) {
+        log.debug("Setting {} to key {} ", meter, listEntryPosition);
         switch (listEntryPosition) {
             case LISTENTRY_CONSUMPTION_TOTAL:
                 smartMeterReading.meterTotal = meter;
