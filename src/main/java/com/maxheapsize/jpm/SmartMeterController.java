@@ -1,6 +1,7 @@
 package com.maxheapsize.jpm;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,13 +23,13 @@ public class SmartMeterController {
         return readingBuffer.getSmartMeterReading().inKwh();
     }
 
-    @RequestMapping(value = "/power/w", consumes = "text/plain", produces = "text/plain", method = RequestMethod.GET)
+    @RequestMapping(value = "/power/w", produces = "text/plain", method = RequestMethod.GET)
     @ResponseBody
     public String getPowerNowWText() {
         return readingBuffer.getSmartMeterReading().powerNowText();
     }
 
-    @RequestMapping(value = "/meter/wh", consumes = "text/plain", produces = "text/plain", method = RequestMethod.GET)
+    @RequestMapping(value = "/meter/wh", produces = "text/plain", method = RequestMethod.GET)
     @ResponseBody
     public String getMeterTotalKwhText() {
         return readingBuffer.getSmartMeterReading().meterTotalText();
