@@ -1,6 +1,6 @@
 Version 0.1 (a)
 
-A REST Micro Service for reading your power meter at home.
+A tiny REST Service for reading your power meter at home.
 
 Since 2010 every new house in Germany needs to have a 'smart' power meter. Some (all?) of them have an optical
 interface (infrared).
@@ -91,8 +91,6 @@ If you want to run it in test mode without a real IR usb infrared sensor attache
 ```
 
 to get a fake reader.
-
-*ALL IS VERY LIKELY TO CHANGE*
 
 Have fun.
 
