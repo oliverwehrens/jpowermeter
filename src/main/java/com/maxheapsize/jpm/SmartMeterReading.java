@@ -38,4 +38,12 @@ public class SmartMeterReading {
         return smartMeterReadingInKwh;
     }
 
+    public String powerNowText() {
+        return power.value.toString();
+    }
+
+    public String meterTotalText() {
+        return meterTotal.value.toString();
+    }
+
 }

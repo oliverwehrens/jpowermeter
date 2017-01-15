@@ -14,7 +14,8 @@ public class ReadingBuffer {
         return currentSmartMeterReading;
     }
 
-    public void setSmartMeterReading(SmartMeterReading newSmartMeterReading) {
+    public void
+    setSmartMeterReading(SmartMeterReading newSmartMeterReading) {
         this.currentSmartMeterReading = newSmartMeterReading;
         log.debug("Setting new Reading in Buffer {}.", newSmartMeterReading);
     }

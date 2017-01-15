@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 public class SmartMeterController {
 
     @Autowired
-     ReadingBuffer readingBuffer = new ReadingBuffer();
+    ReadingBuffer readingBuffer = new ReadingBuffer();
 
     @RequestMapping(value = "/", produces = "application/json", method = RequestMethod.GET)
     @ResponseBody
@@ -22,4 +22,15 @@ public class SmartMeterController {
         return readingBuffer.getSmartMeterReading().inKwh();
     }
 
+    @RequestMapping(value = "/power/w", consumes = "text/plain", produces = "text/plain", method = RequestMethod.GET)
+    @ResponseBody
+    public String getPowerNowWText() {
+        return readingBuffer.getSmartMeterReading().powerNowText();
+    }
+
+    @RequestMapping(value = "/meter/wh", consumes = "text/plain", produces = "text/plain", method = RequestMethod.GET)
+    @ResponseBody
+    public String getMeterTotalKwhText() {
+        return readingBuffer.getSmartMeterReading().meterTotalText();
+    }
 }
