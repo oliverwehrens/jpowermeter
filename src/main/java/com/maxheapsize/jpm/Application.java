@@ -48,7 +48,9 @@ public class Application {
         }
 
         SmartMeterReading reading = ehzSmlReader.read(device);
-        readingBuffer.setSmartMeterReading(reading);
+        if (reading.complete) {
+            readingBuffer.setSmartMeterReading(reading);
+        }
     }
 
     private EhzSmlReader getReader(String device) {
