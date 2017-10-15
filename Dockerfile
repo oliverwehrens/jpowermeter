@@ -1,4 +1,4 @@
-FROM owehrens/java
+FROM java
 MAINTAINER Oliver Wehrens <oliver@wehrens.de>
 
 RUN echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" | tee /etc/apt/sources.list.d/webupd8team-java.list
