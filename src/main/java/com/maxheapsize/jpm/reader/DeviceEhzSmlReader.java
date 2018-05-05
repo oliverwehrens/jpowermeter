@@ -29,7 +29,8 @@ public class DeviceEhzSmlReader implements EhzSmlReader {
     private final static Logger log = LoggerFactory.getLogger(DeviceEhzSmlReader.class);
     private final int TRIES_TO_GET_THE_START_SEQUENCE_IN_DATA_FROM_DEVICE = 1;
 
-    public SmartMeterReading read(String device) throws PortInUseException, IOException, UnsupportedCommOperationException {
+    public SmartMeterReading read(String deviceName) throws PortInUseException, IOException, UnsupportedCommOperationException {
+        String device = "/dev/"+deviceName;
         log.debug("Reading from "+device);
         SML_SerialReceiver receiver = new SML_SerialReceiver();
         receiver.setupComPort(device);

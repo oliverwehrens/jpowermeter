@@ -23,15 +23,24 @@ public class SmartMeterControllerTest {
     SmartMeterReading smartMeterReading = new SmartMeterReading();
     smartMeterReading.date = new Date();
     expectedString = "{\"date\":" + smartMeterReading.date.getTime() + ",\"meterTotal\":{\"value\":0,\"unit\":\"wh\"},\"meterOne\":{\"value\":0,\"unit\":\"wh\"},\"meterTwo\":{\"value\":0,\"unit\":\"wh\"},\"power\":{\"value\":0,\"unit\":\"wh\"},\"complete\":false}";
-    smartMeterController.readingBuffer.setSmartMeterReading(smartMeterReading);
+    smartMeterController.readingBuffer.setSmartMeterReading("testdevice", smartMeterReading);
     this.mockMvc = standaloneSetup(smartMeterController).build();
   }
 
   @Test
-  public void testGet() throws Exception {
-    this.mockMvc.perform(get("/"))
+  public void testGetDevice() throws Exception {
+    this.mockMvc.perform(get("/testdevice"))
         .andExpect(status().isOk())
         .andExpect(content().string(expectedString))
+        .andExpect(content().contentType("application/json"));
+
+  }
+
+  @Test
+  public void testGetDevices() throws Exception {
+    this.mockMvc.perform(get("/"))
+        .andExpect(status().isOk())
+        .andExpect(content().string("{\"devices\":[\"testdevice\"]}"))
         .andExpect(content().contentType("application/json"));
 
   }

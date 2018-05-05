@@ -48,10 +48,11 @@ java -Djava.library.path=/usr/lib/jni/ -jar ./jpowermeter.jar
 
 To start the service.
 
-If you want to specify a device for your IR reader different than /dev/ttyUSB0 you need to specify it at startup.
+If you want to specify a device (or multiple) for your IR reader different than /dev/ttyUSB0 you need to specify it at startup.
+If you want to use multiple readers you need to separate the devices (under the /dev/ tree in Linux) by ','. 
 
 ```
-java -Ddevice=/dev/ttyS0 -Djava.library.path=/usr/lib/jni/ -jar ./jpowermeter-0.1.0.jar  
+java -Ddevices=ttyUSB1,ttyUSB2 -Djava.library.path=/usr/lib/jni/ -jar ./jpowermeter-0.1.0.jar  
 ```
 
 You now can connect to the service on port 9000.

@@ -3,6 +3,9 @@ package com.maxheapsize.jpm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Set;
+
 @RestController
 @CrossOrigin
 public class SmartMeterController {
@@ -10,27 +13,34 @@ public class SmartMeterController {
     @Autowired
     ReadingBuffer readingBuffer = new ReadingBuffer();
 
-    @RequestMapping(value = "/", produces = "application/json", method = RequestMethod.GET)
+    @RequestMapping(value ="/", produces = "application/json", method = RequestMethod.GET)
     @ResponseBody
-    public SmartMeterReading getConsumptionNowJson() {
-        return readingBuffer.getSmartMeterReading();
+    public ServiceDocument getDevices() {
+        return new ServiceDocument(readingBuffer.getDevices());
     }
 
-    @RequestMapping(value = "/kwh", produces = "application/json", method = RequestMethod.GET)
+
+    @RequestMapping(value = "/{device}", produces = "application/json", method = RequestMethod.GET)
     @ResponseBody
-    public SmartMeterReading getConsumptionNowJsonKwh() {
-        return readingBuffer.getSmartMeterReading().inKwh();
+    public SmartMeterReading getConsumptionNowJson(@PathVariable String device) {
+        return readingBuffer.getSmartMeterReading(device);
     }
 
-    @RequestMapping(value = "/power/w", produces = "text/plain", method = RequestMethod.GET)
+    @RequestMapping(value = "/{device}/kwh", produces = "application/json", method = RequestMethod.GET)
     @ResponseBody
-    public String getPowerNowWText() {
-        return readingBuffer.getSmartMeterReading().powerNowText();
+    public SmartMeterReading getConsumptionNowJsonKwh(@PathVariable String device) {
+        return readingBuffer.getSmartMeterReading(device).inKwh();
     }
 
-    @RequestMapping(value = "/meter/wh", produces = "text/plain", method = RequestMethod.GET)
+    @RequestMapping(value = "/{device}/power/w", produces = "text/plain", method = RequestMethod.GET)
     @ResponseBody
-    public String getMeterTotalKwhText() {
-        return readingBuffer.getSmartMeterReading().meterTotalText();
+    public String getPowerNowWText(@PathVariable String device) {
+        return readingBuffer.getSmartMeterReading(device).powerNowText();
+    }
+
+    @RequestMapping(value = "/{device}/meter/wh", produces = "text/plain", method = RequestMethod.GET)
+    @ResponseBody
+    public String getMeterTotalKwhText(@PathVariable String device) {
+        return readingBuffer.getSmartMeterReading(device).meterTotalText();
     }
 }

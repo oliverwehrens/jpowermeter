@@ -11,4 +11,4 @@ RUN apt-get clean
 
 ADD build/libs/jpowermeter.jar /jpowermeter.jar
 EXPOSE 9000 9001
-CMD ["java", "-Ddevice=/dev/ttyUSB0","-Djava.library.path=/usr/lib/jni/","-jar","/jpowermeter.jar"]
+CMD ["java", "-Ddevice=/dev/bus/usb/002/006","-Djava.library.path=/usr/lib/jni/","-jar","/jpowermeter.jar"]
